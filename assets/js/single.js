@@ -1,5 +1,7 @@
 // reference to the issues container
 var issueContainerEl = document.querySelector("#issues-container");
+// dom reference to this container
+var limitWarningEl = document.querySelector("#limit-warning");
 
 var getRepoIssues = function (repo) {
     console.log(repo);
@@ -13,6 +15,11 @@ var getRepoIssues = function (repo) {
                 console.log(data);
                 // pass response data to dom function
                 displayIssues(data);
+                
+                // check if api has paginated issues
+                if (response.headers.get("Link")) {
+                    console.log("repo has more than 30 issues");
+                }
             });
         }
         else {
@@ -57,4 +64,4 @@ var displayIssues = function (issues) {
     }
 };
 
-getRepoIssues("elfsvet/git-it-done");
+getRepoIssues("facebook/react");
