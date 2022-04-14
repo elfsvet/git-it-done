@@ -2,6 +2,16 @@
 var issueContainerEl = document.querySelector("#issues-container");
 // dom reference to this container
 var limitWarningEl = document.querySelector("#limit-warning");
+// dom reference to span repo - name id
+var repoNameEl = document.querySelector("#repo-name")
+
+var getRepoName = function() {
+    var queryString = document.location.search;
+    var repoName = queryString.split("=")[1];
+    // console.log(repoName);
+    getRepoIssues(repoName);
+    repoNameEl.textContent = repoName;
+};
 
 var getRepoIssues = function (repo) {
     console.log(repo);
@@ -81,4 +91,5 @@ var displayWarning = function(repo) {
 
 
 
-getRepoIssues("facebook/react");
+// getRepoIssues("facebook/react");
+getRepoName();
