@@ -9,19 +9,19 @@ var getUserRepos = function (user) {
 
     // make a request to the url
     fetch(apiUrl)
-    .then(function (response) {
-        if(response.ok) {   // if it was a successful request .ok if it 200 - true
-            response.json().then(function(data) {
-                displayRepos(data, user);
-              });
-        } else {
-            alert("Error: GitHub User Not Found");
-        }
-    })
-    .catch(function (error) {
-        // notice this ".catch()" getting chained onto the end of the '.then()' method 
-        alert("Unable to connect to GitHub");
-    });
+        .then(function (response) {
+            if (response.ok) {   // if it was a successful request .ok if it 200 - true
+                response.json().then(function (data) {
+                    displayRepos(data, user);
+                });
+            } else {
+                alert("Error: GitHub User Not Found");
+            }
+        })
+        .catch(function (error) {
+            // notice this ".catch()" getting chained onto the end of the '.then()' method 
+            alert("Unable to connect to GitHub");
+        });
 };
 
 // lets create function formSubmitHandler
@@ -42,11 +42,11 @@ var formSubmitHandler = function (event) {
 
 };
 
-var displayRepos = function (repos, searchTerm){
+var displayRepos = function (repos, searchTerm) {
 
     console.log(repos); // display whole object of repo
     console.log("searchTerm " + searchTerm);    // display username
- 
+
     // check if api returned any repos
     if (repos.length === 0) {
         repoContainerEl.textContent = "No repositories found.";
@@ -58,7 +58,7 @@ var displayRepos = function (repos, searchTerm){
     repoSearchTerm.textContent = searchTerm; // assign usermane to reposearchTerm
 
     // loop over repos
-    for (var i = 0; i< repos.length; i++) {
+    for (var i = 0; i < repos.length; i++) {
         // format repo name
         var repoName = repos[i].owner.login + "/" + repos[i].name;
 
@@ -94,11 +94,21 @@ var displayRepos = function (repos, searchTerm){
     }
 };
 
-var getFeaturedRepos = function(language) {
+var getFeaturedRepos = function (language) {
     var apiUrl = "https://api.github.com/search/repositories?q=" + language + "+is:featured&sort=help-wanted-issues";
-  
-    fetch(apiUrl);
-  };
+
+    fetch(apiUrl).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (data) {
+
+                // console.log(data);
+                displayRepos(data.items, language);
+            });
+        } else {
+            alert("Error: GitHub User Not Found");
+        }
+    });
+};
 
 
 // getUserRepos('elfsvet');
